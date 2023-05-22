@@ -1,0 +1,47 @@
+.main-wrapper {
+  width: 36rem;
+  height: 37.9rem;
+  background-color: rgba(11, 36, 52, 1);
+  display: grid;
+  place-items: center;
+}
+
+.main {
+  padding-top: 3.328rem;
+  padding-bottom: 3.392rem;
+  padding-inline: 3.456rem;
+  background-color: rgba(245, 245, 245, 1);
+  height: 32rem;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  color: rgba(43, 40, 58, 1);
+}
+
+.main__heading {
+  font-family: "Karla", sans-serif;
+  font-size: 2.56rem;
+  width: 19.712rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.main__instructions {
+  font-family: "Inter", sans-serif;
+  font-size: 1.311rem;
+  width: 23.296rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.dice-container {
+  margin-top: 2.38rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 1.792rem;
+  row-gap: 1.856rem;
+}
+
+.roll-wrapper {
+  margin-top: 2.56rem;
+  text-align: center;
+}
