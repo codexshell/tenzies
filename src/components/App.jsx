@@ -34,7 +34,7 @@ export function App() {
 
   useEffect(() => {
     if (tenzies && timeElapsed < bestTime) {
-      setBestTime(timeElapsed + 1);
+      setBestTime(timeElapsed);
       localStorage.setItem("bestTime", timeElapsed);
     } else if (tenzies && bestTime === 0) {
       setBestTime(timeElapsed);
@@ -58,7 +58,7 @@ export function App() {
     } else {
       setTenzies(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dice]);
 
   function formatTime(time) {
