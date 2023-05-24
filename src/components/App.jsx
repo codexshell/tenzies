@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useStopwatch } from "react-timer-hook";
 import { nanoid } from "nanoid";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
@@ -18,8 +19,14 @@ export function App() {
     () => Number(localStorage.getItem("bestTime")) || 0
   );
 
+  const { seconds, pause } = useStopwatch({ autoStart: true });
+
   const formattedTime = formatTime(timeElapsed);
   const formattedBestTime = formatTime(bestTime);
+
+  useEffect(() => {
+    setTimeElapsed(seconds);
+  }, [seconds]);
 
   useEffect(() => {
     localStorage.setItem("bestTime", bestTime);
@@ -37,16 +44,6 @@ export function App() {
   }, [tenzies]);
 
   useEffect(() => {
-    if (tenzies) return;
-    const interval = setInterval(() => {
-      setTimeElapsed(timeElapsed + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeElapsed]);
-
-  useEffect(() => {
     localStorage.setItem("numberOfRolls", numberOfRolls);
   }, [numberOfRolls]);
 
@@ -57,9 +54,11 @@ export function App() {
 
     if (isTenzies) {
       setTenzies(true);
+      pause();
     } else {
       setTenzies(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dice]);
 
   function formatTime(time) {
