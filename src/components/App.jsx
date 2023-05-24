@@ -14,20 +14,37 @@ export function App() {
   const { width, height } = useWindowSize();
   const [numberOfRolls, setNumberOfRolls] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
+  const [bestTime, setBestTime] = useState(
+    () => Number(localStorage.getItem("bestTime")) || 0
+  );
 
-  const formattedTime = moment.utc(timeElapsed * 1000).format("HH:mm:ss");
-  console.log(formattedTime);
+  const formattedTime = formatTime(timeElapsed);
+  const formattedBestTime = formatTime(bestTime);
 
   useEffect(() => {
+    localStorage.setItem("bestTime", bestTime);
+  }, [bestTime]);
+
+  useEffect(() => {
+    if (tenzies && timeElapsed < bestTime) {
+      setBestTime(timeElapsed + 1);
+      localStorage.setItem("bestTime", timeElapsed);
+    } else if (tenzies && bestTime === 0) {
+      setBestTime(timeElapsed);
+      localStorage.setItem("bestTime", timeElapsed);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tenzies]);
+
+  useEffect(() => {
+    if (tenzies) return;
     const interval = setInterval(() => {
       setTimeElapsed(timeElapsed + 1);
     }, 1000);
 
-    if (tenzies) {
-      clearInterval(interval);
-    }
     return () => clearInterval(interval);
-  }, [tenzies, timeElapsed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeElapsed]);
 
   useEffect(() => {
     localStorage.setItem("numberOfRolls", numberOfRolls);
@@ -44,6 +61,10 @@ export function App() {
       setTenzies(false);
     }
   }, [dice]);
+
+  function formatTime(time) {
+    return moment.utc(time * 1000).format("HH:mm:ss");
+  }
 
   function holdDice(id) {
     const newDice = dice.map((die) => ({
@@ -101,7 +122,7 @@ export function App() {
 
   return (
     <>
-      <p className="time">Time Elapsed: {formattedTime}</p>
+      <p className="best-time">Best Time {formattedBestTime}</p>
       <div className="main-wrapper">
         <main className="main">
           <h1 className="main__heading">Tenzies</h1>
@@ -122,6 +143,7 @@ export function App() {
           <Confetti width={width} height={height} numberOfPieces={1000} />
         )}
       </div>
+      <p className="time">Time Elapsed: {formattedTime}</p>
       <p className="won">Current number of rolls: {numberOfRolls} rolls</p>
     </>
   );
