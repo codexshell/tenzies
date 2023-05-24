@@ -11,6 +11,24 @@ export function App() {
   const [dice, setDice] = useState(allNewdice());
   const [tenzies, setTenzies] = useState(false);
   const { width, height } = useWindowSize();
+  const [numberOfRolls, setNumberOfRolls] = useState(0);
+  const [lowestRolls, setLowestRolls] = useState(
+    Number(localStorage.getItem("lowestRolls")) || Infinity
+  );
+
+  useEffect(() => {
+    localStorage.setItem("lowestRolls", lowestRolls);
+  }, [lowestRolls]);
+
+  useEffect(() => {
+    if (tenzies && numberOfRolls < lowestRolls) {
+      setLowestRolls(numberOfRolls);
+    }
+  }, [tenzies, lowestRolls, numberOfRolls]);
+
+  useEffect(() => {
+    localStorage.setItem("numberOfRolls", numberOfRolls);
+  }, [numberOfRolls]);
 
   useEffect(() => {
     const isTenzies = dice.every(
@@ -55,6 +73,7 @@ export function App() {
     if (tenzies) {
       setDice(allNewdice());
       setTenzies(false);
+      setNumberOfRolls(0);
       return;
     } else {
       const newDice = dice.map((die) => ({
@@ -64,6 +83,7 @@ export function App() {
 
       setDice(newDice);
     }
+    setNumberOfRolls(numberOfRolls + 1);
   }
 
   const diceElements = dice.map((die) => (
@@ -76,25 +96,31 @@ export function App() {
   ));
 
   return (
-    <div className="main-wrapper">
-      <main className="main">
-        <h1 className="main__heading">Tenzies</h1>
-        <p className="main__instructions">
-          Roll until all dice are the same. Click each die to freeze it at its
-          current value between rolls.
-        </p>
-        <div className="dice-container">{diceElements}</div>
-        <div className="roll-wrapper">
-          <BaseButton
-            onClick={rollDice}
-            label={tenzies ? "New Game" : "Roll"}
-            size="large"
-          />
-        </div>
-      </main>
-      {tenzies && (
-        <Confetti width={width} height={height} numberOfPieces={1000} />
+    <>
+      <div className="main-wrapper">
+        <main className="main">
+          <h1 className="main__heading">Tenzies</h1>
+          <p className="main__instructions">
+            Roll until all dice are the same. Click each die to freeze it at its
+            current value between rolls.
+          </p>
+          <div className="dice-container">{diceElements}</div>
+          <div className="roll-wrapper">
+            <BaseButton
+              onClick={rollDice}
+              label={tenzies ? "New Game" : "Roll"}
+              size="large"
+            />
+          </div>
+        </main>
+        {tenzies && (
+          <Confetti width={width} height={height} numberOfPieces={1000} />
+        )}
+      </div>
+      {lowestRolls !== Infinity && (
+        <p className="lowest">Lowest number of rolls recorded: {lowestRolls}</p>
       )}
-    </div>
+      <p className="won">Current number of rolls: {numberOfRolls} rolls</p>
+    </>
   );
 }

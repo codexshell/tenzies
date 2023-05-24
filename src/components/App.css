@@ -45,3 +45,18 @@
   margin-top: 2.56rem;
   text-align: center;
 }
+
+.lowest {
+  font-family: "Karla", sans-serif;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.won {
+  font-family: "Karla", sans-serif;
+  font-size: 2rem;
+  line-height: 1.915rem;
+  color: rgba(80, 53, 255, 1);
+  text-align: center;
+  margin-top: 2rem;
+}
