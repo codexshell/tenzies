@@ -19,7 +19,7 @@ export function App() {
     () => Number(localStorage.getItem("bestTime")) || 0
   );
 
-  const { seconds, pause } = useStopwatch({ autoStart: true });
+  const { seconds, pause, reset } = useStopwatch({ autoStart: true });
 
   const formattedTime = formatTime(timeElapsed);
   const formattedBestTime = formatTime(bestTime);
@@ -97,7 +97,7 @@ export function App() {
       setDice(allNewdice());
       setTenzies(false);
       setNumberOfRolls(0);
-      setTimeElapsed(0);
+      reset();
       return;
     } else {
       const newDice = dice.map((die) => ({
