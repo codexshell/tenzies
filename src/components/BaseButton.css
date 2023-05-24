@@ -9,21 +9,29 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-width: 3.584rem;
-  min-height: 3.81rem;
   font-family: "Karla", sans-serif;
   cursor: pointer;
+  min-height: 3.81rem;
 }
 
-.c-button--green {
-  background-color: rgba(89, 227, 145, 1);
+.c-button--small {
+  min-width: 3.584rem;
 }
 
-.c-button--blue {
+.c-button--large {
   background-color: rgba(80, 53, 255, 1);
   color: white;
   min-width: 9.216rem;
   font-size: 1.638rem;
   line-height: 1.915rem;
   box-shadow: 0 0.32rem 0.768rem rgba(0, 0, 0, 0.18);
+  padding-inline: 3rem;
+}
+
+.c-button:active {
+  transform: scale(0.95);
+}
+
+.c-button--green {
+  background-color: rgba(89, 227, 145, 1);
 }

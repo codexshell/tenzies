@@ -4,7 +4,7 @@ import "./BaseButton.css";
 
 export function BaseButton({
   size = "small",
-  backgroundColor,
+  isHeld = false,
   label,
   ...props
 }) {
@@ -14,8 +14,7 @@ export function BaseButton({
       className={[
         "c-button",
         `c-button--${size}`,
-        backgroundColor === "green" && "c-button--green",
-        backgroundColor === "blue" && "c-button--blue",
+        isHeld && "c-button--green",
       ].join(" ")}
       {...props}
     >
@@ -26,7 +25,6 @@ export function BaseButton({
 
 BaseButton.propTypes = {
   size: PropTypes.oneOf(["small", "large"]),
-  backgroundColor: PropTypes.oneOf(["green", "blue", "white"]),
-  label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  isHeld: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
