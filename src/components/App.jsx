@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import moment from "moment";
 
 import { BaseButton } from "./BaseButton";
 
@@ -15,6 +16,21 @@ export function App() {
   const [lowestRolls, setLowestRolls] = useState(
     Number(localStorage.getItem("lowestRolls")) || Infinity
   );
+  const [timeElapsed, setTimeElapsed] = useState(0);
+
+  const formattedTime = moment.utc(timeElapsed * 1000).format("HH:mm:ss");
+  console.log(formattedTime);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeElapsed(timeElapsed + 1);
+    }, 1000);
+
+    if (tenzies) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [tenzies, timeElapsed]);
 
   useEffect(() => {
     localStorage.setItem("lowestRolls", lowestRolls);
@@ -74,6 +90,7 @@ export function App() {
       setDice(allNewdice());
       setTenzies(false);
       setNumberOfRolls(0);
+      setTimeElapsed(0);
       return;
     } else {
       const newDice = dice.map((die) => ({
@@ -97,6 +114,7 @@ export function App() {
 
   return (
     <>
+      <p className="time">Time Elapsed: {formattedTime}</p>
       <div className="main-wrapper">
         <main className="main">
           <h1 className="main__heading">Tenzies</h1>

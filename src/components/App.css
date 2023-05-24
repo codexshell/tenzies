@@ -60,3 +60,11 @@
   text-align: center;
   margin-top: 2rem;
 }
+
+.time {
+  font-family: "Inter", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.538rem;
+  text-align: center;
+  margin-top: 1.6rem;
+}
