@@ -13,9 +13,6 @@ export function App() {
   const [tenzies, setTenzies] = useState(false);
   const { width, height } = useWindowSize();
   const [numberOfRolls, setNumberOfRolls] = useState(0);
-  const [lowestRolls, setLowestRolls] = useState(
-    Number(localStorage.getItem("lowestRolls")) || Infinity
-  );
   const [timeElapsed, setTimeElapsed] = useState(0);
 
   const formattedTime = moment.utc(timeElapsed * 1000).format("HH:mm:ss");
@@ -31,16 +28,6 @@ export function App() {
     }
     return () => clearInterval(interval);
   }, [tenzies, timeElapsed]);
-
-  useEffect(() => {
-    localStorage.setItem("lowestRolls", lowestRolls);
-  }, [lowestRolls]);
-
-  useEffect(() => {
-    if (tenzies && numberOfRolls < lowestRolls) {
-      setLowestRolls(numberOfRolls);
-    }
-  }, [tenzies, lowestRolls, numberOfRolls]);
 
   useEffect(() => {
     localStorage.setItem("numberOfRolls", numberOfRolls);
@@ -135,9 +122,6 @@ export function App() {
           <Confetti width={width} height={height} numberOfPieces={1000} />
         )}
       </div>
-      {lowestRolls !== Infinity && (
-        <p className="lowest">Lowest number of rolls recorded: {lowestRolls}</p>
-      )}
       <p className="won">Current number of rolls: {numberOfRolls} rolls</p>
     </>
   );
